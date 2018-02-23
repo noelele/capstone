@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_google_signin_btn_text_dark_default"
+    tools:context="noelanthony.com.lostandfoundfinal.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="@android:dimen/thumbnail_height"
+        android:layout_height="192dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:contentDescription="logo"
+        app:srcCompat="@drawable/applogo" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="@android:dimen/app_icon_size"
+
+        android:layout_below="@+id/imageView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_user"
+        android:drawableStart="@drawable/ic_action_user"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textWebEmailAddress" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_alignLeft="@+id/emailEditText"
+        android:layout_alignStart="@+id/emailEditText"
+        android:layout_below="@+id/emailEditText"
+        android:layout_marginTop="15dp"
+        android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_pass"
+        android:drawableStart="@drawable/ic_action_pass"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/registerTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/roundedrectangle"
+        android:text="Login"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/registerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:text="If you don't have an account. Sign up here."
+        android:textColor="@color/colorPrimary"
+        android:textSize="17sp" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
