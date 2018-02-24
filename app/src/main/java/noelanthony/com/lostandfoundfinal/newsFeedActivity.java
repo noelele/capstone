@@ -1,7 +1,7 @@
 package noelanthony.com.lostandfoundfinal;
 
 import android.app.FragmentManager;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class newsFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -97,6 +99,10 @@ public class newsFeedActivity extends AppCompatActivity
             //
         } else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame , new profileFragment()).commit();
+        } else if (id ==R.id.nav_logout){
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

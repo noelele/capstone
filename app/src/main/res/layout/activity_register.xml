@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
+        android:layout_height="105dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -28,7 +28,7 @@
         android:layout_alignStart="@+id/emailEditText"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="7dp"
-        android:text="ID Number"
+        android:text="Email Address"
         android:textColor="#005880"
         android:textSize="17sp" />
 

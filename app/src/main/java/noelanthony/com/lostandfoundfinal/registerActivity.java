@@ -16,6 +16,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class registerActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,7 +29,14 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
     EditText emailEditText, passwordEditText, confpassEditText, nameEditText;
     Button registerBtn;
     ProgressBar progressbar;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +51,29 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
 
         mAuth = FirebaseAuth.getInstance();
 
+
         findViewById(R.id.registerBtn).setOnClickListener(this);
         findViewById(R.id.backtologinTextView).setOnClickListener(this);
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() != null) {
+                    Intent intent = new Intent(registerActivity.this, newsFeedActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
+
+
     }
+
 
 
     private void registerUser() {
 
-        String email = emailEditText.getText().toString().trim();
+        final String name = nameEditText.getText().toString().trim();
+        final String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String confpass = confpassEditText.getText().toString().trim();
 
@@ -87,9 +115,21 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressbar.setVisibility(View.GONE);
+                        Date date = new Date();
+                        Date newDate = new Date(date.getTime() + (604800000L * 2) + (24 * 60 * 60));
+                        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+                        String stringdate = dt.format(newDate);
+
                         if (task.isSuccessful()) {
                             finish();
-                            startActivity(new Intent(registerActivity.this, newsFeedActivity.class));
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+                            DatabaseReference currentUserDB = mDatabase.child(mAuth.getCurrentUser().getUid());
+                            currentUserDB.child("name").setValue(name);
+                            currentUserDB.child("image").setValue("default");
+                            currentUserDB.child("datejoined").setValue(stringdate);
+                            currentUserDB.child("email").setValue(email);
+
+
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();

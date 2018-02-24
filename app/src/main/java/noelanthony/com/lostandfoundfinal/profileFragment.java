@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -50,8 +53,10 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     ProgressBar progressBar;
     String profileImageURL;
     Button saveBtn;
-    FirebaseAuth mAuth;
     EditText nameEditText;
+    FirebaseAuth mAuth;
+    Firebase mRef;
+
 
 
     @Override
@@ -97,7 +102,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.profile_layout,container,false);
-
+        Firebase.setAndroidContext(applicationContext);
         mAuth = FirebaseAuth.getInstance();
 
         uploadImageView = (ImageView)myView.findViewById(R.id.uploadImageView);
@@ -109,6 +114,30 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         saveBtn = (Button)myView.findViewById(R.id.saveBtn);
         nameEditText=(EditText)myView.findViewById(R.id.nameEditText);
         emailverifyTextView = (TextView)myView.findViewById(R.id.emailverifyTextView);
+
+
+        mRef = new Firebase("https://lostandfoundfinal.firebaseio.com/users/");
+
+
+        mRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                Map<String,String> map = dataSnapshot.getValue(Map.class);
+                String name = map.get("name");
+                String datejoined = map.get("datejoined");
+                nameTextView.setText(name);
+                datejoinedTextView.setText(datejoined);
+
+                //THIS IS WHERE  U LEFT OFF
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         uploadImageView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -130,6 +159,8 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+
+        //logs user out if not logged in
         if(mAuth.getCurrentUser() == null) {
             //getActivity().getFragmentManager().popBackStack();
             getActivity().onBackPressed(); //finish activity and go to login
@@ -146,7 +177,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                 Glide.with(this).load(user.getPhotoUrl().toString()).into(uploadImageView);
             }
             if (user.getDisplayName() != null) {
-                String displayName = user.getDisplayName();
+                nameEditText.setText(user.getDisplayName());
             }
             if(user.isEmailVerified()){
                 emailverifyTextView.setText("Email Verified");
@@ -159,6 +190,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(applicationContext, "Verification Email Sent", Toast.LENGTH_SHORT).show();
+                                emailverifyTextView.setText("Verification Email sent. Click to resend");
                             }
                         });
                     }
