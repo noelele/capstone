@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,12 +29,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -54,8 +57,16 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     String profileImageURL;
     Button saveBtn;
     EditText nameEditText;
-    FirebaseAuth mAuth;
-    Firebase mRef;
+
+
+    //FIREBASE Stuff
+    private FirebaseDatabase mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
+    private String userID;
+
+
 
 
 
@@ -103,7 +114,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.profile_layout,container,false);
         Firebase.setAndroidContext(applicationContext);
-        mAuth = FirebaseAuth.getInstance();
+
 
         uploadImageView = (ImageView)myView.findViewById(R.id.uploadImageView);
         nameTextView = (TextView)myView.findViewById(R.id.nameTextView);
@@ -116,25 +127,35 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         emailverifyTextView = (TextView)myView.findViewById(R.id.emailverifyTextView);
 
 
-        mRef = new Firebase("https://lostandfoundfinal.firebaseio.com/users/");
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        myRef = mDatabase.getReference();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
 
-        mRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user !=null){
+                    //user is signed in
+                    Toast.makeText(applicationContext, user.getEmail()+" is signed in", Toast.LENGTH_SHORT ).show();
+                } else{
+                    //user is signed out
+                    Toast.makeText(applicationContext, "Successfully logged out", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        };
 
-                Map<String,String> map = dataSnapshot.getValue(Map.class);
-                String name = map.get("name");
-                String datejoined = map.get("datejoined");
-                nameTextView.setText(name);
-                datejoinedTextView.setText(datejoined);
-
-                //THIS IS WHERE  U LEFT OFF
-
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -152,6 +173,18 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         myView.findViewById(R.id.updateinfoTextView).setOnClickListener(this);
 
         return myView;
+    }
+
+    private void showData(DataSnapshot dataSnapshot) {
+        for(DataSnapshot ds:dataSnapshot.getChildren()){
+            UserInformation uInfo = new UserInformation();
+            uInfo.setName(ds.child(userID).getValue(UserInformation.class).getName());//sets name
+            //uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());//sets email
+            uInfo.setDatejoined(ds.child(userID).getValue(UserInformation.class).getDatejoined());//sets name
+
+            nameTextView.setText(uInfo.getName());
+            datejoinedTextView.setText(uInfo.getDatejoined());
+        }
     }
 
 
