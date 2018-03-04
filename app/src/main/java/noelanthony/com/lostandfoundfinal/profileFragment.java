@@ -50,7 +50,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     private static final int CHOOSE_IMAGE = 101;
     View myView;
     ImageView uploadImageView;
-    TextView nameTextView, updateinfoTextView, idnoTextView, datejoinedTextView, emailverifyTextView;
+    TextView nameTextView, updateinfoTextView, idnoTextView, datejoinedTextView, emailverifyTextView, itemsreturnedTextView;
     Uri uriProfileImage;
     Context applicationContext = MainActivity.getContextOfApplication();
     ProgressBar progressBar;
@@ -125,6 +125,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         saveBtn = (Button)myView.findViewById(R.id.saveBtn);
         nameEditText=(EditText)myView.findViewById(R.id.nameEditText);
         emailverifyTextView = (TextView)myView.findViewById(R.id.emailverifyTextView);
+        itemsreturnedTextView = (TextView)myView.findViewById(R.id.itemsreturnedTextView);
 
 
 
@@ -164,6 +165,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 showImageChooser();
+                saveBtn.setVisibility(View.VISIBLE);
             }
         });
 
@@ -181,9 +183,13 @@ public class profileFragment extends Fragment implements View.OnClickListener {
             uInfo.setName(ds.child(userID).getValue(UserInformation.class).getName());//sets name
             //uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());//sets email
             uInfo.setDatejoined(ds.child(userID).getValue(UserInformation.class).getDatejoined());//sets name
+            uInfo.setItemsreturned(ds.child(userID).getValue(UserInformation.class).getItemsreturned());
+            uInfo.setIdnumber(ds.child(userID).getValue(UserInformation.class).getIdnumber());
 
             nameTextView.setText(uInfo.getName());
             datejoinedTextView.setText(uInfo.getDatejoined());
+            itemsreturnedTextView.setText(String.valueOf(uInfo.getItemsreturned()));
+            idnoTextView.setText(uInfo.getIdnumber());
         }
     }
 

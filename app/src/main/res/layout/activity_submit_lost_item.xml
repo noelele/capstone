@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="noelanthony.com.lostandfoundfinal.submitLostItemActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#d35467"
+        android:gravity="center"
+        android:text="Find your Lost Item"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginLeft="70dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="35dp"
+        android:text="Item Name" />
+
+    <EditText
+        android:id="@+id/itemnameEditText"
+        android:layout_width="221dp"
+        android:layout_height="33dp"
+        android:layout_below="@+id/textView9"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/registrationeditext"
+        android:ems="10"
+        android:hint="(wallet, flash drive)"
+        android:inputType="text"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView9"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_below="@+id/itemnameEditText"
+        android:layout_marginTop="23dp"
+        android:text="Last seen in" />
+
+    <EditText
+        android:id="@+id/lastseenEditText"
+        android:layout_width="221dp"
+        android:layout_height="33dp"
+        android:layout_alignLeft="@+id/textView10"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_below="@+id/textView10"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/registrationeditext"
+        android:ems="10"
+        android:hint="(LB443, LRC 3rd Floor)"
+        android:inputType="text"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lastseenEditText"
+        android:layout_alignStart="@+id/lastseenEditText"
+        android:layout_below="@+id/lastseenEditText"
+        android:layout_marginTop="16dp"
+        android:text="Description" />
+
+    <EditText
+        android:id="@+id/descriptionEditText"
+        android:layout_width="221dp"
+        android:layout_height="99dp"
+        android:layout_alignLeft="@+id/textView11"
+        android:layout_alignStart="@+id/textView11"
+        android:layout_below="@+id/textView11"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/registrationeditext"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="Enter Item Description"
+        android:inputType="text"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/descriptionEditText"
+        android:layout_alignStart="@+id/descriptionEditText"
+        android:layout_below="@+id/descriptionEditText"
+        android:layout_marginTop="19dp"
+        android:text="Upload a photo (optional)" />
+
+    <ImageButton
+        android:id="@+id/uploadImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/descriptionEditText"
+        android:layout_alignRight="@+id/descriptionEditText"
+        android:layout_alignTop="@+id/textView12"
+        app:srcCompat="@android:drawable/ic_menu_upload" />
+
+    <Button
+        android:id="@+id/submitLostBtn"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/uploadImageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/redroundedbtn"
+        android:text="Submit"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
+
+
+
+
+</RelativeLayout>

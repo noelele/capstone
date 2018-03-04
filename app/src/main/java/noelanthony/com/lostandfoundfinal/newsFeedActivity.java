@@ -21,6 +21,8 @@ public class newsFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class newsFeedActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             navigationView.getMenu().performIdentifierAction(R.id.nav_newsfeed_layout, 0);
         }
+
 
 
     }

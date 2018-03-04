@@ -34,7 +34,7 @@ public class itemAdapter extends ArrayAdapter<items> {
         View rowView = inflater.inflate(R.layout.itemslv_layout, parent, false);
 
         TextView itemNameTextView = (TextView) rowView.findViewById(R.id.itemNameTextView);
-        TextView timeTextView = (TextView) rowView.findViewById(R.id.timeTextView);
+        TextView datetimeTextView = (TextView) rowView.findViewById(R.id.datetimeTextView);
         TextView locationTextView = (TextView) rowView.findViewById(R.id.locationTextView);
         TextView posterTextView = (TextView) rowView.findViewById(R.id.posterTextView);
         ImageView itemImageView = (ImageView) rowView.findViewById(R.id.itemImageView);
@@ -46,8 +46,7 @@ public class itemAdapter extends ArrayAdapter<items> {
        // calendar = Calendar.getInstance();
         //simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
        // Date = simpleDateFormat.format(calendar.getTime());
-        timeTextView.setText(values.get(position).getTime());
-
+        datetimeTextView.setText(values.get(position).getTime());
         locationTextView.setText(values.get(position).getLocation());
         posterTextView.setText(values.get(position).getPoster());
 

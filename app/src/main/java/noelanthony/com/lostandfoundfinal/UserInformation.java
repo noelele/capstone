@@ -9,6 +9,8 @@ public class UserInformation {
     private String image;
     private String email;
     private String datejoined;
+    private int itemsreturned;
+    private String idnumber;
 
 
     public UserInformation() {
@@ -45,5 +47,21 @@ public class UserInformation {
 
     public void setDatejoined(String datejoined) {
         this.datejoined = datejoined;
+    }
+
+    public int getItemsreturned() {
+        return itemsreturned;
+    }
+
+    public void setItemsreturned(int itemsreturned) {
+        this.itemsreturned = itemsreturned;
+    }
+
+    public String getIdnumber() {
+        return idnumber;
+    }
+
+    public void setIdnumber(String idnumber) {
+        this.idnumber = idnumber;
     }
 }

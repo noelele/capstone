@@ -128,6 +128,8 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
                             currentUserDB.child("image").setValue("default");
                             currentUserDB.child("datejoined").setValue(stringdate);
                             currentUserDB.child("email").setValue(email);
+                            currentUserDB.child("itemsreturned").setValue(0);
+                            currentUserDB.child("idnumber").setValue("Update your ID Number");
 
 
                         } else {

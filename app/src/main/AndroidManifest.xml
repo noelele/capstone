@@ -20,7 +20,10 @@
         <activity
             android:name=".newsFeedActivity"
             android:label="@string/title_activity_news_feed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".submitLostItemActivity" />
+        <activity android:name=".lostConfirmPopUp"
+            android:theme="@style/AppTheme.PopMe"></activity>
     </application>
 
 </manifest>
