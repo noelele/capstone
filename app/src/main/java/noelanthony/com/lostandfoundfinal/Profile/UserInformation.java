@@ -1,21 +1,22 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.Profile;
 
 /**
  * Created by Noel on 27/02/2018.
  */
 
 public class UserInformation {
-    private String name;
-    private String image;
-    private String email;
-    private String datejoined;
-    private int itemsreturned;
-    private String idnumber;
+    public String name;
+    public String image;
+    public String email;
+    public String datejoined;
+    public int itemsreturned;
+    public String idnumber;
 
 
     public UserInformation() {
 
     }
+
 
     public String getName() {
         return name;

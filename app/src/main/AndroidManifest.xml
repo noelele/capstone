@@ -9,21 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".loginANDregister.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".registerActivity" />
+        <activity android:name=".loginANDregister.registerActivity" />
         <activity
-            android:name=".newsFeedActivity"
+            android:name=".HamburgerFIles.newsFeedActivity"
             android:label="@string/title_activity_news_feed"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".submitLostItemActivity" />
-        <activity android:name=".lostConfirmPopUp"
-            android:theme="@style/AppTheme.PopMe"></activity>
+        <activity android:name=".NewsFeed.SubmitLost.submitLostItemActivity" />
+        <activity
+            android:name=".NewsFeed.SubmitLost.lostConfirmPopUp"
+            android:theme="@style/AppTheme.PopMe" />
     </application>
 
 </manifest>

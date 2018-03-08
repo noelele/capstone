@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.Profile;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -40,6 +40,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
+import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.loginANDregister.MainActivity;
+
 /**
  * Created by Noel on 16/02/2018.
  */
@@ -58,18 +61,71 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     Button saveBtn;
     EditText nameEditText;
 
-
     //FIREBASE Stuff
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
     private String userID;
+    private Firebase myFirebase;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        myView = inflater.inflate(R.layout.profile_layout,container,false);
+        Firebase.setAndroidContext(applicationContext);
+        myFirebase = new Firebase("https://lostandfoundfinal.firebaseio.com/");
 
+        uploadImageView = myView.findViewById(R.id.uploadImageView);
+        nameTextView = myView.findViewById(R.id.nameTextView);
+        updateinfoTextView = myView.findViewById(R.id.updateinfoTextView);
+        idnoTextView = myView.findViewById(R.id.idnoTextView);
+        datejoinedTextView= myView.findViewById(R.id.datejoinedTextView);
+        progressBar= myView.findViewById(R.id.progressbar);
+        saveBtn = myView.findViewById(R.id.saveBtn);
+        nameEditText= myView.findViewById(R.id.nameEditText);
+        emailverifyTextView = myView.findViewById(R.id.emailverifyTextView);
+        itemsreturnedTextView = myView.findViewById(R.id.itemsreturnedTextView);
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        myRef = mDatabase.getReference().child("users");
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
 
+        myRef.child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+                //UserInformation userInfo = dataSnapshot.getValue(UserInformation.class);
+               // nameTextView.setText(userInfo.getName());
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        uploadImageView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showImageChooser();
+                saveBtn.setVisibility(View.VISIBLE);
+                nameTextView.setVisibility(View.INVISIBLE);
+                nameEditText.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        loadUserInformation();
+
+        myView.findViewById(R.id.saveBtn).setOnClickListener(this);
+        myView.findViewById(R.id.updateinfoTextView).setOnClickListener(this);
+
+        return myView;
+    }
+
+    //FOR IMAGE
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -98,120 +154,20 @@ public class profileFragment extends Fragment implements View.OnClickListener {
 
                 }
             })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(applicationContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    //change applicationContext if mu error //profileFragment.this
-                }
-            });
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(applicationContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            //change applicationContext if mu error //profileFragment.this
+                        }
+                    });
         }
     }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.profile_layout,container,false);
-        Firebase.setAndroidContext(applicationContext);
-
-
-        uploadImageView = (ImageView)myView.findViewById(R.id.uploadImageView);
-        nameTextView = (TextView)myView.findViewById(R.id.nameTextView);
-        updateinfoTextView = (TextView)myView.findViewById(R.id.updateinfoTextView);
-        idnoTextView = (TextView)myView.findViewById(R.id.idnoTextView);
-        datejoinedTextView=(TextView)myView.findViewById(R.id.datejoinedTextView);
-        progressBar=(ProgressBar)myView.findViewById(R.id.progressbar);
-        saveBtn = (Button)myView.findViewById(R.id.saveBtn);
-        nameEditText=(EditText)myView.findViewById(R.id.nameEditText);
-        emailverifyTextView = (TextView)myView.findViewById(R.id.emailverifyTextView);
-        itemsreturnedTextView = (TextView)myView.findViewById(R.id.itemsreturnedTextView);
-
-
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
-        myRef = mDatabase.getReference();
-        FirebaseUser user = mAuth.getCurrentUser();
-        userID = user.getUid();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user !=null){
-                    //user is signed in
-                    Toast.makeText(applicationContext, user.getEmail()+" is signed in", Toast.LENGTH_SHORT ).show();
-                } else{
-                    //user is signed out
-                    Toast.makeText(applicationContext, "Successfully logged out", Toast.LENGTH_SHORT ).show();
-                }
-            }
-        };
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        uploadImageView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                showImageChooser();
-                saveBtn.setVisibility(View.VISIBLE);
-            }
-        });
-
-        loadUserInformation();
-
-        myView.findViewById(R.id.saveBtn).setOnClickListener(this);
-        myView.findViewById(R.id.updateinfoTextView).setOnClickListener(this);
-
-        return myView;
-    }
-
-    private void showData(DataSnapshot dataSnapshot) {
-        for(DataSnapshot ds:dataSnapshot.getChildren()){
-            UserInformation uInfo = new UserInformation();
-            uInfo.setName(ds.child(userID).getValue(UserInformation.class).getName());//sets name
-            //uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());//sets email
-            uInfo.setDatejoined(ds.child(userID).getValue(UserInformation.class).getDatejoined());//sets name
-            uInfo.setItemsreturned(ds.child(userID).getValue(UserInformation.class).getItemsreturned());
-            uInfo.setIdnumber(ds.child(userID).getValue(UserInformation.class).getIdnumber());
-
-            nameTextView.setText(uInfo.getName());
-            datejoinedTextView.setText(uInfo.getDatejoined());
-            itemsreturnedTextView.setText(String.valueOf(uInfo.getItemsreturned()));
-            idnoTextView.setText(uInfo.getIdnumber());
-        }
-    }
-
-
-    //onstart
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //logs user out if not logged in
-        if(mAuth.getCurrentUser() == null) {
-            //getActivity().getFragmentManager().popBackStack();
-            getActivity().onBackPressed(); //finish activity and go to login
-            startActivity(new Intent(applicationContext, MainActivity.class));
-        }
-    }
-
+    //FOR IMAGE AND EMAIL
     private void loadUserInformation() {
         final FirebaseUser user = mAuth.getCurrentUser();
-
         if(user!=null) {
-
             if (user.getPhotoUrl() != null) {
                 Glide.with(this).load(user.getPhotoUrl().toString()).into(uploadImageView);
             }
@@ -237,39 +193,64 @@ public class profileFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
     private void saveUserInformation() {
-            String displayName = nameEditText.getText().toString();
-            nameTextView.setText(displayName);
+        String displayName = nameEditText.getText().toString();
+        nameTextView.setText(displayName);
 
-            if (displayName.isEmpty()){
-                nameEditText.setError("Please enter your name");
-                nameEditText.requestFocus();
-                return;
-            }
+        if (displayName.isEmpty()){
+            nameEditText.setError("Please enter your name");
+            nameEditText.requestFocus();
+            return;
+        }
         FirebaseUser user =mAuth.getCurrentUser();
-
-            if(user!=null && profileImageURL !=null){
-                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(displayName).setPhotoUri(Uri.parse(profileImageURL)).build();
-
-                user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(applicationContext, "Profile Updated", Toast.LENGTH_SHORT ).show();
-                        }
+        if(user!=null && profileImageURL !=null){
+            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(displayName).setPhotoUri(Uri.parse(profileImageURL)).build();
+            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(applicationContext, "Profile Updated", Toast.LENGTH_SHORT ).show();
                     }
-                });
-            }
+                }
+            });
+        }
     }
-
     private void showImageChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
     }
+    //END IMAGE STUFF
 
+
+    //GET USER INFO FROM DATABASE
+    private void showData(DataSnapshot dataSnapshot) {
+        for(DataSnapshot ds:dataSnapshot.getChildren()){
+            UserInformation uInfo = new UserInformation();
+            uInfo.setName(ds.child(userID).getValue(UserInformation.class).getName());//sets name
+            //uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());//sets email
+            uInfo.setDatejoined(ds.child(userID).getValue(UserInformation.class).getDatejoined());//sets name
+            uInfo.setItemsreturned(ds.child(userID).getValue(UserInformation.class).getItemsreturned());
+            uInfo.setIdnumber(ds.child(userID).getValue(UserInformation.class).getIdnumber());
+            nameTextView.setText(uInfo.getName());
+            datejoinedTextView.setText(uInfo.getDatejoined());
+            itemsreturnedTextView.setText(String.valueOf(uInfo.getItemsreturned()));
+            idnoTextView.setText(uInfo.getIdnumber());
+        }
+    }
+
+    //onstart
+    @Override
+    public void onResume() {
+        super.onResume();
+        //logs user out if not logged in
+        if(mAuth.getCurrentUser() == null) {
+            //getActivity().getFragmentManager().popBackStack();
+            getActivity().onBackPressed(); //finish activity and go to login
+            startActivity(new Intent(applicationContext, MainActivity.class));
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -288,8 +269,6 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                 updateinfoTextView.setVisibility(View.VISIBLE);
                 saveUserInformation();
                 break;
-
-
         }
     }
 }//END

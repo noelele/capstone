@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="noelanthony.com.lostandfoundfinal.submitLostItemActivity">
+    tools:context="noelanthony.com.lostandfoundfinal.NewsFeed.SubmitLost.submitLostItemActivity">
 
     <TextView
         android:id="@+id/textView2"
@@ -35,9 +35,10 @@
         android:id="@+id/itemnameEditText"
         android:layout_width="221dp"
         android:layout_height="33dp"
+        android:layout_alignLeft="@+id/textView9"
+        android:layout_alignStart="@+id/textView9"
         android:layout_below="@+id/textView9"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="13dp"
         android:background="@drawable/registrationeditext"
         android:ems="10"
         android:hint="(wallet, flash drive)"
@@ -122,7 +123,8 @@
         android:background="@drawable/redroundedbtn"
         android:text="Submit"
         android:textColor="@android:color/background_light"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:onClick="showAlertDialog"/>
 
 
 

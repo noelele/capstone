@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.NewsFeed;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import noelanthony.com.lostandfoundfinal.R;
+
 /**
  * Created by Noel on 16/02/2018.
  */

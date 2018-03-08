@@ -1,11 +1,9 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.HamburgerFIles;
 
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,9 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import noelanthony.com.lostandfoundfinal.NewsFeed.newsfeedFragment;
+import noelanthony.com.lostandfoundfinal.Profile.profileFragment;
+import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.loginANDregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.mySubmissionsFragment;
 
 public class newsFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,14 +33,7 @@ public class newsFeedActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,13 +91,13 @@ public class newsFeedActivity extends AppCompatActivity
 
         int id = item.getItemId();
         FragmentManager fragmentManager = getFragmentManager();
-
         if (id == R.id.nav_newsfeed_layout) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new newsfeedFragment()).commit();
-
-            //
         } else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame , new profileFragment()).commit();
+        }else if(id ==R.id.nav_mySubmissions_layout) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame , new mySubmissionsFragment()).commit();
+
         } else if (id ==R.id.nav_logout){
             FirebaseAuth.getInstance().signOut();
             finish();

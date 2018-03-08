@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.loginANDregister;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import noelanthony.com.lostandfoundfinal.HamburgerFIles.newsFeedActivity;
+import noelanthony.com.lostandfoundfinal.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static Context contextOfApplication;

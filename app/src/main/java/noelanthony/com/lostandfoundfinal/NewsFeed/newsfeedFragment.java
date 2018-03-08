@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.NewsFeed;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -18,6 +18,10 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+
+import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.loginANDregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.NewsFeed.SubmitLost.submitLostItemActivity;
 
 /**
  * Created by Noel on 16/02/2018.
